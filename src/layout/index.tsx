@@ -1,5 +1,7 @@
 'use client'
 import { PropsWithChildren, useEffect } from 'react'
+import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { useCenterInit } from '@/hooks/use-center'
 import BlurredBubblesBackground from './backgrounds/blurred-bubbles'
 import NavCard from '@/components/nav-card'
@@ -8,20 +10,20 @@ import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon
 import { useSize, useSizeInit } from '@/hooks/use-size'
 import { useConfigStore } from '@/app/(home)/stores/config-store'
 import { ScrollTopButton } from '@/components/scroll-top-button'
-import MusicCard from '@/components/music-card'
-import { useMusicStore } from '@/hooks/use-music'
+import RouteContent from '@/components/route-content'
+import ScrollCoordinator from '@/components/scroll-coordinator'
+
+const MusicCard = dynamic(() => import('@/components/music-card'), {
+	ssr: false,
+	loading: () => null
+})
 
 export default function Layout({ children }: PropsWithChildren) {
 	useCenterInit()
 	useSizeInit()
 	const { cardStyles, siteContent, regenerateKey } = useConfigStore()
 	const { maxSM, init } = useSize()
-	const loadMusicCatalog = useMusicStore(state => state.loadCatalog)
-
-	useEffect(() => {
-		void loadMusicCatalog()
-	}, [loadMusicCatalog])
-
+	const pathname = usePathname()
 	const backgroundImages = (siteContent.backgroundImages ?? []) as Array<{ id: string; url: string }>
 	const currentBackgroundImageId = siteContent.currentBackgroundImageId
 	const currentBackgroundImage =
@@ -57,9 +59,10 @@ export default function Layout({ children }: PropsWithChildren) {
 				/>
 			)}
 			<BlurredBubblesBackground colors={siteContent.backgroundColors} regenerateKey={regenerateKey} />
+			<ScrollCoordinator />
 
 			<main className='relative z-10 h-full'>
-				{children}
+				<RouteContent>{children}</RouteContent>
 				<NavCard />
 
 				{cardStyles.musicCard?.enabled !== false && <MusicCard />}

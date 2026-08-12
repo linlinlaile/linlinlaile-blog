@@ -34,8 +34,9 @@ export const GITHUB_CONFIG = {
 }
 
 export interface ManualRepo {
-  owner: string
-  repo: string
+  owner?: string
+  repo?: string
+  fullName?: string
   /** Star 数（用于展示） */
   stars?: number
   /** 语言列表 */

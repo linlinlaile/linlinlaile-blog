@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
+import { motion } from 'motion/react'
 import { Pause, Play, Repeat, Shuffle, SkipBack, SkipForward } from 'lucide-react'
 import clsx from 'clsx'
 import Card from '@/components/card'
@@ -104,8 +105,16 @@ export default function MusicCard() {
 	const clockCardStyles = cardStyles.clockCard
 	const calendarCardStyles = cardStyles.calendarCard
 	const { catalog } = useMusicStore()
+	const loadCatalog = useMusicStore(state => state.loadCatalog)
 	const currentTrack = useCurrentMusicTrack()
 	const isHomePage = pathname === '/'
+	const isMusicPage = pathname === '/music'
+
+	useEffect(() => {
+		if (isHomePage || isMusicPage) {
+			void loadCatalog()
+		}
+	}, [isHomePage, isMusicPage, loadCatalog])
 
 	const position = useMemo(() => {
 		return {
@@ -119,6 +128,7 @@ export default function MusicCard() {
 	return (
 		<>
 			{isHomePage ? (
+				<motion.div layout='position' key='home-player'>
 				<HomeDraggableLayer cardKey='musicCard' x={position.x} y={position.y} width={styles.width} height={styles.height}>
 					<Card
 						order={styles.order}
@@ -133,15 +143,16 @@ export default function MusicCard() {
 						</div>
 					</Card>
 				</HomeDraggableLayer>
+				</motion.div>
 			) : currentTrack ? (
-				<FloatingPlayer />
+				<motion.div layout='position' key='floating-player'><FloatingPlayer /></motion.div>
 			) : null}
-			<div className='bg-card fixed right-3 bottom-3 left-3 z-50 flex items-center gap-2 rounded-2xl border p-2 shadow-lg backdrop-blur sm:hidden'>
+			<motion.div layout='position' className='bg-card fixed right-3 bottom-3 left-3 z-50 flex items-center gap-2 rounded-2xl border p-2 shadow-lg backdrop-blur sm:hidden'>
 				<TrackInfo compact />
 				<div className='ml-auto'>
 					<Controls compact />
 				</div>
-			</div>
+			</motion.div>
 		</>
 	)
 }

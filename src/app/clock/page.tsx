@@ -60,13 +60,16 @@ export default function ClockPage() {
 					setTimerTime(Math.floor(remaining))
 				}
 
-				intervalRef.current = requestAnimationFrame(updateTime)
 			}
 
-			intervalRef.current = requestAnimationFrame(updateTime)
+			// The clock is calculated from performance.now(), so it does not need
+			// a render on every animation frame. Updating ten times per second keeps
+			// the display responsive without re-rendering the whole app at 60fps.
+			updateTime()
+			intervalRef.current = window.setInterval(updateTime, 100) as unknown as number
 		} else {
 			if (intervalRef.current !== null) {
-				cancelAnimationFrame(intervalRef.current)
+				window.clearInterval(intervalRef.current)
 				intervalRef.current = null
 			}
 			if (startTimeRef.current !== null) {
@@ -78,7 +81,8 @@ export default function ClockPage() {
 
 		return () => {
 			if (intervalRef.current !== null) {
-				cancelAnimationFrame(intervalRef.current)
+				window.clearInterval(intervalRef.current)
+				intervalRef.current = null
 			}
 		}
 	}, [isRunning, mode])

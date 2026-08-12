@@ -15,6 +15,7 @@ export default function ClockCard() {
 	const { cardStyles, siteContent } = useConfigStore()
 	const editing = useLayoutEditStore(state => state.editing)
 	const [time, setTime] = useState(new Date())
+	const [navigating, setNavigating] = useState(false)
 	const styles = cardStyles.clockCard
 	const hiCardStyles = cardStyles.hiCard
 	const showSeconds = siteContent.clockShowSeconds ?? false
@@ -57,6 +58,8 @@ export default function ClockCard() {
 				<div
 					onClick={() => {
 						if (!editing) {
+							if (navigating) return
+							setNavigating(true)
 							router.push('/clock')
 						}
 					}}

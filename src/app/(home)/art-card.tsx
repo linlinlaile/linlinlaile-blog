@@ -34,6 +34,7 @@ export default function ArtCard() {
 
   const [images, setImages] = useState<string[]>(DEFAULT_IMAGES)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [navigating, setNavigating] = useState(false)
 
   // 从 pictures list.json 加载图片列表
   useEffect(() => {
@@ -87,7 +88,11 @@ export default function ArtCard() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6 }}
-              onClick={() => router.push('/pictures')}
+              onClick={() => {
+                if (navigating) return
+                setNavigating(true)
+                router.push('/pictures')
+              }}
             />
           </AnimatePresence>
         </div>

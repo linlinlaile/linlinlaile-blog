@@ -19,6 +19,7 @@ export default function WriteButton() {
 	const clockCardStyles = cardStyles.clockCard
 
 	const [show, setShow] = useState(false)
+	const [navigating, setNavigating] = useState(false)
 
 	useEffect(() => {
 		setTimeout(() => setShow(true), styles.order * ANIMATION_DELAY * 1000)
@@ -35,13 +36,18 @@ export default function WriteButton() {
 		<HomeDraggableLayer cardKey='writeButtons' x={x} y={y} width={styles.width} height={styles.height}>
 			<motion.div initial={{ left: x, top: y }} animate={{ left: x, top: y }} className='absolute flex items-center gap-4'>
 				<motion.button
-					onClick={() => router.push('/write')}
+					onClick={() => {
+						if (navigating) return
+						setNavigating(true)
+						router.push('/write')
+					}}
+					disabled={navigating}
 					initial={{ opacity: 0, scale: 0.6 }}
 					animate={{ opacity: 1, scale: 1 }}
 					whileHover={{ scale: 1.05 }}
 					whileTap={{ scale: 0.95 }}
 					style={{ boxShadow: 'inset 0 0 12px rgba(255, 255, 255, 0.4)' }}
-					className='brand-btn whitespace-nowrap'>
+					className='brand-btn min-w-28 whitespace-nowrap disabled:cursor-wait disabled:opacity-70'>
 					{siteContent.enableChristmas && (
 						<>
 							<img

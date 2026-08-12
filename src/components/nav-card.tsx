@@ -119,7 +119,7 @@ export default function NavCard() {
 					height={size.height}
 					x={position.x}
 					y={position.y}
-					className={clsx(form != 'full' && 'overflow-hidden', form === 'mini' && 'p-3', form === 'icons' && 'flex items-center gap-6 p-3')}>
+					className={clsx('transition-[width,height] duration-200 ease-out', form != 'full' && 'overflow-hidden', form === 'mini' && 'p-3', form === 'icons' && 'flex items-center gap-6 p-3')}>
 					{form === 'full' && siteContent.enableChristmas && (
 						<>
 							<img

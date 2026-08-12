@@ -7,7 +7,7 @@ import { DialogModal } from '@/components/dialog-modal'
 import { useAuthStore } from '@/hooks/use-auth'
 import { useConfigStore } from '../stores/config-store'
 import { pushSiteContent } from '../services/push-site-content'
-import type { SiteContent, CardStyles } from '../stores/config-store'
+import { cloneConfig, type SiteContent, type CardStyles } from '../stores/config-store'
 import { SiteSettings, type FileItem, type ArtImageUploads, type BackgroundImageUploads, type SocialButtonImageUploads } from './site-settings'
 import { ColorConfig } from './color-config'
 import { HomeLayout } from './home-layout'
@@ -37,8 +37,8 @@ export default function ConfigDialog({ open, onClose }: ConfigDialogProps) {
 
 	useEffect(() => {
 		if (open) {
-			const current = { ...siteContent }
-			const currentCardStyles = { ...cardStyles }
+			const current = cloneConfig(siteContent)
+			const currentCardStyles = cloneConfig(cardStyles)
 			setFormData(current)
 			setCardStylesData(currentCardStyles)
 			setOriginalData(current)

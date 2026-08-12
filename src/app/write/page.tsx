@@ -1,12 +1,22 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useWriteStore } from './stores/write-store'
 import { usePreviewStore } from './stores/preview-store'
-import { WriteEditor } from './components/editor'
-import { WriteSidebar } from './components/sidebar'
-import { WriteActions } from './components/actions'
-import { WritePreview } from './components/preview'
 import { useEffect } from 'react'
+
+const WriteEditor = dynamic(() => import('./components/editor').then(module => ({ default: module.WriteEditor })), {
+	loading: () => <div className='card min-h-[24rem] flex-1 animate-pulse' />
+})
+const WriteSidebar = dynamic(() => import('./components/sidebar').then(module => ({ default: module.WriteSidebar })), {
+	loading: () => <div className='card hidden min-h-[24rem] w-80 animate-pulse lg:block' />
+})
+const WriteActions = dynamic(() => import('./components/actions').then(module => ({ default: module.WriteActions })), {
+	loading: () => null
+})
+const WritePreview = dynamic(() => import('./components/preview').then(module => ({ default: module.WritePreview })), {
+	loading: () => <div className='card min-h-[24rem] animate-pulse' />
+})
 
 export default function WritePage() {
 	const { form, cover, reset } = useWriteStore()

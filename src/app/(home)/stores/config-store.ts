@@ -4,6 +4,7 @@ import cardStyles from '@/config/card-styles.json'
 
 export type SiteContent = typeof siteContent
 export type CardStyles = typeof cardStyles
+export const cloneConfig = <T,>(value: T): T => structuredClone(value)
 
 interface ConfigStore {
 	siteContent: SiteContent
@@ -19,8 +20,8 @@ interface ConfigStore {
 }
 
 export const useConfigStore = create<ConfigStore>((set, get) => ({
-	siteContent: { ...siteContent },
-	cardStyles: { ...cardStyles },
+	siteContent: cloneConfig(siteContent),
+	cardStyles: cloneConfig(cardStyles),
 	regenerateKey: 0,
 	configDialogOpen: false,
 	setSiteContent: (content: SiteContent) => {
@@ -30,10 +31,10 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
 		set({ cardStyles: styles })
 	},
 	resetSiteContent: () => {
-		set({ siteContent: { ...siteContent } })
+		set({ siteContent: cloneConfig(siteContent) })
 	},
 	resetCardStyles: () => {
-		set({ cardStyles: { ...cardStyles } })
+		set({ cardStyles: cloneConfig(cardStyles) })
 	},
 	regenerateBubbles: () => {
 		set(state => ({ regenerateKey: state.regenerateKey + 1 }))
