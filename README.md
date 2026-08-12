@@ -54,6 +54,32 @@ pnpm dev
 
 开发服务器默认运行在 http://localhost:2025
 
+## 音乐歌单同步
+
+音乐页使用网易云公开歌单的元数据展示歌曲和封面，实际播放只使用 `public/music` 中的本地文件，不会在运行时请求网易云音频地址。
+
+```bash
+pnpm music:sync
+```
+
+默认同步歌单 `17655082808`。也可以传入其他公开歌单 ID：
+
+```bash
+pnpm music:sync -- 17655082808
+```
+
+如果网易云要求登录才能返回完整歌单，可以在本机临时提供登录 Cookie：
+
+```powershell
+$env:NETEASE_COOKIE = '从浏览器网易云域名 Cookie 中复制的内容'
+pnpm music:sync
+Remove-Item Env:NETEASE_COOKIE
+```
+
+Cookie 只用于这次同步请求，不会写入仓库、歌单 JSON 或日志。不要把 Cookie 提交到 Git，也不要发送给其他人。
+
+本地音频文件需要使用网易云歌曲 ID 命名，例如 `500412390.mp3` 或 `500412390.m4a`。同步后会生成 `public/music/playlist.json`，并将封面缓存到 `public/music/covers/`。没有对应本地文件的歌曲仍会显示在歌单中，但会标记为不可播放。
+
 ## 部署
 
 ### Vercel
@@ -70,14 +96,14 @@ pnpm deploy      # 部署
 
 ## 环境变量
 
-| 变量 | 说明 |
-| --- | --- |
-| `NEXT_PUBLIC_GITHUB_OWNER` | GitHub 用户名 |
-| `NEXT_PUBLIC_GITHUB_REPO` | 内容仓库名 |
-| `NEXT_PUBLIC_GITHUB_BRANCH` | 内容分支（默认 `main`） |
-| `NEXT_PUBLIC_GITHUB_APP_ID` | GitHub App ID |
+| 变量                             | 说明                         |
+| -------------------------------- | ---------------------------- |
+| `NEXT_PUBLIC_GITHUB_OWNER`       | GitHub 用户名                |
+| `NEXT_PUBLIC_GITHUB_REPO`        | 内容仓库名                   |
+| `NEXT_PUBLIC_GITHUB_BRANCH`      | 内容分支（默认 `main`）      |
+| `NEXT_PUBLIC_GITHUB_APP_ID`      | GitHub App ID                |
 | `NEXT_PUBLIC_GITHUB_ENCRYPT_KEY` | 私钥在浏览器缓存时的加密密钥 |
-| `BLOG_SLUG_KEY` | 博客 slug 密钥（可选） |
+| `BLOG_SLUG_KEY`                  | 博客 slug 密钥（可选）       |
 
 也可以在 `src/consts.ts` 中直接修改默认值。
 

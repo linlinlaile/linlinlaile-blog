@@ -1,174 +1,147 @@
 'use client'
 
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
+import { Pause, Play, Repeat, Shuffle, SkipBack, SkipForward } from 'lucide-react'
+import clsx from 'clsx'
 import Card from '@/components/card'
 import { useCenterStore } from '@/hooks/use-center'
-import { useConfigStore } from '../app/(home)/stores/config-store'
-import { CARD_SPACING } from '@/consts'
-import MusicSVG from '@/svgs/music.svg'
-import PlaySVG from '@/svgs/play.svg'
+import { useConfigStore } from '@/app/(home)/stores/config-store'
+import { getNextRepeatMode, useCurrentMusicTrack, useMusicStore } from '@/hooks/use-music'
 import { HomeDraggableLayer } from '../app/(home)/home-draggable-layer'
-import { Pause } from 'lucide-react'
+import { CARD_SPACING } from '@/consts'
 import { usePathname } from 'next/navigation'
-import clsx from 'clsx'
 
-const MUSIC_FILES = ['/music/close-to-you.mp3']
+function formatTime(value: number) {
+	if (!Number.isFinite(value) || value < 0) return '0:00'
+	const minutes = Math.floor(value / 60)
+	const seconds = Math.floor(value % 60)
+	return `${minutes}:${seconds.toString().padStart(2, '0')}`
+}
+
+interface ControlsProps {
+	compact?: boolean
+}
+
+function Controls({ compact = false }: ControlsProps) {
+	const track = useCurrentMusicTrack()
+	const { isPlaying, progress, duration, repeatMode, togglePlay, previous, next, seek, setRepeatMode } = useMusicStore()
+	if (!track) return null
+	const nextRepeat = getNextRepeatMode(repeatMode)
+	const playButton = (
+		<button
+			type='button'
+			title={isPlaying ? '暂停' : '播放'}
+			onClick={() => void togglePlay()}
+			className='bg-brand flex size-9 shrink-0 items-center justify-center rounded-full text-white hover:opacity-80'>
+			{isPlaying ? <Pause className='size-4' /> : <Play className='ml-0.5 size-4' />}
+		</button>
+	)
+
+	if (compact) return <div className='flex items-center'>{playButton}</div>
+
+	return (
+		<div className='flex min-w-0 items-center gap-2'>
+			<button type='button' title='上一首' onClick={() => void previous()} className='text-secondary hover:text-brand shrink-0 p-1'>
+				<SkipBack className='size-4' />
+			</button>
+			{playButton}
+			<button type='button' title='下一首' onClick={() => void next()} className='text-secondary hover:text-brand shrink-0 p-1'>
+				<SkipForward className='size-4' />
+			</button>
+			<button type='button' title={`播放模式：${repeatMode}`} onClick={() => setRepeatMode(nextRepeat)} className='text-brand shrink-0 p-1'>
+				{repeatMode === 'shuffle' ? <Shuffle className='size-4' /> : <Repeat className='size-4' />}
+			</button>
+			<div className='text-secondary ml-1 shrink-0 text-[10px] tabular-nums'>
+				{formatTime(progress)} / {formatTime(duration)}
+			</div>
+			<input
+				aria-label='播放进度'
+				type='range'
+				min={0}
+				max={duration || 0}
+				value={Math.min(progress, duration || 0)}
+				disabled={!duration}
+				onChange={event => seek(Number(event.target.value))}
+				className='range-track min-w-0 flex-1'
+			/>
+		</div>
+	)
+}
+
+function FloatingPlayer() {
+	return (
+		<div className='bg-card fixed bottom-4 left-1/2 z-50 hidden w-[min(52rem,calc(100vw-2rem))] -translate-x-1/2 items-center gap-4 rounded-2xl border p-3 shadow-lg backdrop-blur sm:flex'>
+			<div className='min-w-0 flex-1'>
+				<TrackInfo />
+			</div>
+			<div className='min-w-0 flex-[3]'>
+				<Controls />
+			</div>
+		</div>
+	)
+}
+
+function TrackInfo({ compact = false }: { compact?: boolean }) {
+	const track = useCurrentMusicTrack()
+	if (!track) return null
+	return (
+		<div className={clsx('flex min-w-0 items-center', compact ? 'gap-2' : 'gap-3')}>
+			<img src={track.cover} alt='' className={clsx('shrink-0 rounded-xl object-cover', compact ? 'size-10' : 'size-11')} />
+			<div className='min-w-0'>
+				<div className='text-primary truncate text-sm font-medium'>{track.title}</div>
+				<div className='text-secondary truncate text-xs'>{track.artists.join(' / ') || track.album}</div>
+			</div>
+		</div>
+	)
+}
 
 export default function MusicCard() {
 	const pathname = usePathname()
 	const center = useCenterStore()
-	const { cardStyles, siteContent } = useConfigStore()
+	const { cardStyles } = useConfigStore()
 	const styles = cardStyles.musicCard
 	const hiCardStyles = cardStyles.hiCard
 	const clockCardStyles = cardStyles.clockCard
 	const calendarCardStyles = cardStyles.calendarCard
-
-	const [isPlaying, setIsPlaying] = useState(false)
-	const [currentIndex, setCurrentIndex] = useState(0)
-	const [progress, setProgress] = useState(0)
-	const audioRef = useRef<HTMLAudioElement | null>(null)
-	const currentIndexRef = useRef(0)
-
+	const { catalog } = useMusicStore()
+	const currentTrack = useCurrentMusicTrack()
 	const isHomePage = pathname === '/'
 
 	const position = useMemo(() => {
-		// If not on home page, always position at bottom-right corner when playing
-		if (!isHomePage) {
-			return {
-				x: center.width - styles.width - 16,
-				y: center.height - styles.height - 16
-			}
-		}
-
-		// Default position on home page
 		return {
 			x: styles.offsetX !== null ? center.x + styles.offsetX : center.x + CARD_SPACING + hiCardStyles.width / 2 - styles.offset,
 			y: styles.offsetY !== null ? center.y + styles.offsetY : center.y - clockCardStyles.offset + CARD_SPACING + calendarCardStyles.height + CARD_SPACING
 		}
-	}, [isPlaying, isHomePage, center, styles, hiCardStyles, clockCardStyles, calendarCardStyles])
+	}, [center, styles, hiCardStyles, clockCardStyles, calendarCardStyles])
 
-	const { x, y } = position
-
-	// Initialize audio element
-	useEffect(() => {
-		if (!audioRef.current) {
-			audioRef.current = new Audio()
-		}
-
-		const audio = audioRef.current
-
-		const updateProgress = () => {
-			if (audio.duration) {
-				setProgress((audio.currentTime / audio.duration) * 100)
-			}
-		}
-
-		const handleEnded = () => {
-			const nextIndex = (currentIndexRef.current + 1) % MUSIC_FILES.length
-			currentIndexRef.current = nextIndex
-			setCurrentIndex(nextIndex)
-			setProgress(0)
-		}
-
-		const handleTimeUpdate = () => {
-			updateProgress()
-		}
-
-		const handleLoadedMetadata = () => {
-			updateProgress()
-		}
-
-		audio.addEventListener('timeupdate', handleTimeUpdate)
-		audio.addEventListener('ended', handleEnded)
-		audio.addEventListener('loadedmetadata', handleLoadedMetadata)
-
-		return () => {
-			audio.removeEventListener('timeupdate', handleTimeUpdate)
-			audio.removeEventListener('ended', handleEnded)
-			audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
-		}
-	}, [])
-
-	// Handle currentIndex change - load new audio
-	useEffect(() => {
-		currentIndexRef.current = currentIndex
-		if (audioRef.current) {
-			const wasPlaying = !audioRef.current.paused
-			audioRef.current.pause()
-			audioRef.current.src = MUSIC_FILES[currentIndex]
-			audioRef.current.loop = false
-			setProgress(0)
-
-			if (wasPlaying) {
-				audioRef.current.play().catch(console.error)
-			}
-		}
-	}, [currentIndex])
-
-	// Handle play/pause state change
-	useEffect(() => {
-		if (!audioRef.current) return
-
-		if (isPlaying) {
-			audioRef.current.play().catch(console.error)
-		} else {
-			audioRef.current.pause()
-		}
-	}, [isPlaying])
-
-	// Cleanup on unmount
-	useEffect(() => {
-		return () => {
-			if (audioRef.current) {
-				audioRef.current.pause()
-				audioRef.current.src = ''
-			}
-		}
-	}, [])
-
-	const togglePlayPause = () => {
-		setIsPlaying(!isPlaying)
-	}
-
-	// Hide component if not on home page and not playing
-	if (!isHomePage && !isPlaying) {
-		return null
-	}
+	if (!catalog || !currentTrack) return null
 
 	return (
-		<HomeDraggableLayer cardKey='musicCard' x={x} y={y} width={styles.width} height={styles.height}>
-			<Card order={styles.order} width={styles.width} height={styles.height} x={x} y={y} className={clsx('flex items-center gap-3', !isHomePage && 'fixed')}>
-				{siteContent.enableChristmas && (
-					<>
-						<img
-							src='/images/christmas/snow-10.webp'
-							alt='Christmas decoration'
-							className='pointer-events-none absolute'
-							style={{ width: 120, left: -8, top: -12, opacity: 0.8 }}
-						/>
-						<img
-							src='/images/christmas/snow-11.webp'
-							alt='Christmas decoration'
-							className='pointer-events-none absolute'
-							style={{ width: 80, right: -10, top: -12, opacity: 0.8 }}
-						/>
-					</>
-				)}
-
-				<MusicSVG className='h-8 w-8' />
-
-				<div className='flex-1'>
-					<div className='text-secondary text-sm'>Close To You</div>
-
-					<div className='mt-1 h-2 rounded-full bg-white/60'>
-						<div className='bg-linear h-full rounded-full transition-all duration-300' style={{ width: `${progress}%` }} />
-					</div>
+		<>
+			{isHomePage ? (
+				<HomeDraggableLayer cardKey='musicCard' x={position.x} y={position.y} width={styles.width} height={styles.height}>
+					<Card
+						order={styles.order}
+						width={styles.width}
+						height={styles.height}
+						x={position.x}
+						y={position.y}
+						className='hidden flex-col justify-center p-2! sm:flex'>
+						<div className='flex items-center justify-between gap-2'>
+							<TrackInfo compact />
+							<Controls compact />
+						</div>
+					</Card>
+				</HomeDraggableLayer>
+			) : currentTrack ? (
+				<FloatingPlayer />
+			) : null}
+			<div className='bg-card fixed right-3 bottom-3 left-3 z-50 flex items-center gap-2 rounded-2xl border p-2 shadow-lg backdrop-blur sm:hidden'>
+				<TrackInfo compact />
+				<div className='ml-auto'>
+					<Controls compact />
 				</div>
-
-				<button onClick={togglePlayPause} className='flex h-10 w-10 items-center justify-center rounded-full bg-white transition-opacity hover:opacity-80'>
-					{isPlaying ? <Pause className='text-brand h-4 w-4' /> : <PlaySVG className='text-brand ml-1 h-4 w-4' />}
-				</button>
-			</Card>
-		</HomeDraggableLayer>
+			</div>
+		</>
 	)
 }

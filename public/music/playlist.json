@@ -1,0 +1,377 @@
+{
+  "playlist": {
+    "id": 17655082808,
+    "name": "特别喜欢",
+    "cover": "/music/covers/playlist-17655082808.jpg",
+    "trackCount": 29,
+    "updatedAt": "2026-08-11T08:30:15.730Z",
+    "sourceUrl": "https://music.163.com/playlist?id=17655082808"
+  },
+  "tracks": [
+    {
+      "id": 500412390,
+      "title": "Contact",
+      "artists": [
+        "Lulleaux",
+        "Giang Pham"
+      ],
+      "album": "Contact",
+      "cover": "/music/covers/500412390.jpg",
+      "source": "/music/500412390.m4a",
+      "available": true,
+      "duration": 141943
+    },
+    {
+      "id": 1367114866,
+      "title": "Better Anyway",
+      "artists": [
+        "Borgeous",
+        "Runaground"
+      ],
+      "album": "Better Anyway",
+      "cover": "/music/covers/1367114866.jpg",
+      "source": "/music/1367114866.m4a",
+      "available": true,
+      "duration": 186779
+    },
+    {
+      "id": 416531514,
+      "title": "In My Blood",
+      "artists": [
+        "The Veronicas"
+      ],
+      "album": "In My Blood",
+      "cover": "/music/covers/416531514.jpg",
+      "source": "/music/416531514.m4a",
+      "available": true,
+      "duration": 200480
+    },
+    {
+      "id": 1297747234,
+      "title": "All Night Long",
+      "artists": [
+        "JST FRNDS"
+      ],
+      "album": "All Night Long",
+      "cover": "/music/covers/1297747234.jpg",
+      "source": "/music/1297747234.m4a",
+      "available": true,
+      "duration": 215750
+    },
+    {
+      "id": 2718645042,
+      "title": "插曲",
+      "artists": [
+        "二流"
+      ],
+      "album": "寻找2003",
+      "cover": "/music/covers/2718645042.jpg",
+      "source": "/music/2718645042.m4a",
+      "available": true,
+      "duration": 161576
+    },
+    {
+      "id": 3362504066,
+      "title": "直男",
+      "artists": [
+        "OuttaWave"
+      ],
+      "album": "南下南下",
+      "cover": "/music/covers/3362504066.jpg",
+      "source": "/music/3362504066.m4a",
+      "available": true,
+      "duration": 168648
+    },
+    {
+      "id": 1458990435,
+      "title": "West Ten",
+      "artists": [
+        "AJ Tracey",
+        "Mabel"
+      ],
+      "album": "West Ten",
+      "cover": "/music/covers/1458990435.jpg",
+      "source": "/music/1458990435.m4a",
+      "available": true,
+      "duration": 214500
+    },
+    {
+      "id": 3322097320,
+      "title": "九眼桥之龙",
+      "artists": [
+        "Adam Ocean",
+        "Jesse Margiela"
+      ],
+      "album": "M.C.S.A.",
+      "cover": "/music/covers/3322097320.jpg",
+      "source": "/music/3322097320.m4a",
+      "available": true,
+      "duration": 153700
+    },
+    {
+      "id": 2701004459,
+      "title": "42",
+      "artists": [
+        "迪诺哥",
+        "africakid",
+        "heechoo"
+      ],
+      "album": "事闹大了",
+      "cover": "/music/covers/2701004459.jpg",
+      "source": "/music/2701004459.m4a",
+      "available": true,
+      "duration": 218999
+    },
+    {
+      "id": 3321688408,
+      "title": "贵州访客",
+      "artists": [
+        "一枚子安",
+        "FTP"
+      ],
+      "album": "天生的画家",
+      "cover": "/music/covers/3321688408.jpg",
+      "source": "/music/3321688408.m4a",
+      "available": true,
+      "duration": 145039
+    },
+    {
+      "id": 2706764151,
+      "title": "枣庄一夜",
+      "artists": [
+        "华云龙KLE"
+      ],
+      "album": "龙年",
+      "cover": "/music/covers/2706764151.jpg",
+      "source": "/music/2706764151.m4a",
+      "available": true,
+      "duration": 184615
+    },
+    {
+      "id": 28569348,
+      "title": "Free Me (Smooth Remix)",
+      "artists": [
+        "Xilent",
+        "Charlotte Haining"
+      ],
+      "album": "Free Me",
+      "cover": "/music/covers/28569348.jpg",
+      "source": "/music/28569348.m4a",
+      "available": true,
+      "duration": 290538
+    },
+    {
+      "id": 27175305,
+      "title": "Freefall",
+      "artists": [
+        "Metrik"
+      ],
+      "album": "Freefall",
+      "cover": "/music/covers/27175305.jpg",
+      "source": "/music/27175305.m4a",
+      "available": true,
+      "duration": 240000
+    },
+    {
+      "id": 1441411641,
+      "title": "A Centimetre Apart",
+      "artists": [
+        "Cloudier",
+        "Winterberry"
+      ],
+      "album": "A Centimetre Apart",
+      "cover": "/music/covers/1441411641.jpg",
+      "source": "/music/1441411641.m4a",
+      "available": true,
+      "duration": 194400
+    },
+    {
+      "id": 439037024,
+      "title": "L.I.F.E.",
+      "artists": [
+        "Remady",
+        "Manu-L"
+      ],
+      "album": "L.I.F.E.",
+      "cover": "/music/covers/439037024.jpg",
+      "source": "/music/439037024.m4a",
+      "available": true,
+      "duration": 179505
+    },
+    {
+      "id": 1845904638,
+      "title": "Fading Wind",
+      "artists": [
+        "Feint"
+      ],
+      "album": "Fading Wind",
+      "cover": "/music/covers/1845904638.jpg",
+      "source": "/music/1845904638.m4a",
+      "available": true,
+      "duration": 295172
+    },
+    {
+      "id": 2083530639,
+      "title": "Highs and Lows",
+      "artists": [
+        "Rentz",
+        "Bayze"
+      ],
+      "album": "Highs and Lows",
+      "cover": "/music/covers/2083530639.jpg",
+      "source": "/music/2083530639.m4a",
+      "available": true,
+      "duration": 210000
+    },
+    {
+      "id": 2603907279,
+      "title": "四季",
+      "artists": [
+        "Yue"
+      ],
+      "album": "四季",
+      "cover": "/music/covers/2603907279.jpg",
+      "source": "/music/2603907279.m4a",
+      "available": true,
+      "duration": 278750
+    },
+    {
+      "id": 2754175477,
+      "title": "在雨后醒来",
+      "artists": [
+        "艾志恒Asen"
+      ],
+      "album": "在雨后醒来",
+      "cover": "/music/covers/2754175477.jpg",
+      "source": "/music/2754175477.m4a",
+      "available": true,
+      "duration": 245985
+    },
+    {
+      "id": 2088128378,
+      "title": "What If I (Pt.2)",
+      "artists": [
+        "Aamir"
+      ],
+      "album": "What If I? (Pt.2)",
+      "cover": "/music/covers/2088128378.jpg",
+      "source": "/music/2088128378.m4a",
+      "available": true,
+      "duration": 169761
+    },
+    {
+      "id": 1353368988,
+      "title": "What I Like About You",
+      "artists": [
+        "Jonas Blue",
+        "Theresa Rex"
+      ],
+      "album": "What I Like About You",
+      "cover": "/music/covers/1353368988.jpg",
+      "source": "/music/1353368988.m4a",
+      "available": true,
+      "duration": 220396
+    },
+    {
+      "id": 1850925256,
+      "title": "We Burn",
+      "artists": [
+        "Avicii"
+      ],
+      "album": "AVĪCI（02） (Reboot)",
+      "cover": "/music/covers/1850925256.jpg",
+      "source": "/music/1850925256.m4a",
+      "available": true,
+      "duration": 257937
+    },
+    {
+      "id": 2127206652,
+      "title": "Can't Give Up",
+      "artists": [
+        "Connor Price",
+        "Prinz",
+        "Graham"
+      ],
+      "album": "Spin The Globe 2",
+      "cover": "/music/covers/2127206652.jpg",
+      "source": "/music/2127206652.m4a",
+      "available": true,
+      "duration": 162258
+    },
+    {
+      "id": 555201378,
+      "title": "Victory",
+      "artists": [
+        "Tech N9ne"
+      ],
+      "album": "Vintage Tech",
+      "cover": "/music/covers/555201378.jpg",
+      "source": "/music/555201378.m4a",
+      "available": true,
+      "duration": 306826
+    },
+    {
+      "id": 2641065859,
+      "title": "钝感",
+      "artists": [
+        "火晚晴",
+        "LKF34"
+      ],
+      "album": "钝感",
+      "cover": "/music/covers/2641065859.jpg",
+      "source": "/music/2641065859.m4a",
+      "available": true,
+      "duration": 230877
+    },
+    {
+      "id": 864647638,
+      "title": "Livin These Days",
+      "artists": [
+        "ROY PURDY"
+      ],
+      "album": "Livin These Days",
+      "cover": "/music/covers/864647638.jpg",
+      "source": "/music/864647638.m4a",
+      "available": true,
+      "duration": 209049
+    },
+    {
+      "id": 2724735278,
+      "title": "l'm so lonely",
+      "artists": [
+        "乐乐仔"
+      ],
+      "album": "l'm so lonely",
+      "cover": "/music/covers/2724735278.jpg",
+      "source": "/music/2724735278.m4a",
+      "available": true,
+      "duration": 226396
+    },
+    {
+      "id": 1822659190,
+      "title": "Around The World (feat. NOUMENN)",
+      "artists": [
+        "KSHMR",
+        "NOUMENN"
+      ],
+      "album": "Around The World (feat. NOUMENN)",
+      "cover": "/music/covers/1822659190.jpg",
+      "source": "/music/1822659190.m4a",
+      "available": true,
+      "duration": 199017
+    },
+    {
+      "id": 1419697707,
+      "title": "Save My Mind",
+      "artists": [
+        "BUNT.",
+        "Benemy Slope"
+      ],
+      "album": "Save My Mind",
+      "cover": "/music/covers/1419697707.jpg",
+      "source": "/music/1419697707.m4a",
+      "available": true,
+      "duration": 219475
+    }
+  ]
+}
